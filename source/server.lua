@@ -8,17 +8,16 @@ AddEventHandler('cmdSearchTrash:trash', function(item, count)
   -- Send Discord webhook
 
 end)
-
-AddEventHandler('onResourceStart', function(resourceName)
-if resourceName == GetCurrentResourceName() then
-    print('########################')
-    print('Script loaded. All fine!')
-    print('########################')
-else
-  print('You are not allowed to rename this script, server is stopping!')
-  print('You are not allowed to rename this script, server is stopping!')
-  print('You are not allowed to rename this script, server is stopping!')
-  Wait(3000)
-  os.exit()
-end
+AddEventHandler('onResourceStart', function()
+  if GetCurrentResourceName() == 'cmdSearchTrash' then
+      print('########################')
+      print('Script loaded. All fine!')
+      print('########################')
+  else
+    print('You are not allowed to rename this script, server is stopping!')
+    print('You are not allowed to rename this script, server is stopping!')
+    print('You are not allowed to rename this script, server is stopping!')
+    Wait(3000)
+    os.exit()
+  end
 end)
