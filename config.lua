@@ -13,7 +13,7 @@ Config = {
     },
 
     Item_List = {
-        {item = "bread", count = 1, id = 1},
-        {item = "water", count = 5, id = 2}
+        {item = "bread", count = 2},
+        {item = "water", count = 5}
     },
 }
