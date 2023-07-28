@@ -2,24 +2,11 @@ local trash = false
 local wait = false
 
 function SearchTrash()
-	trash = true
-	while trash do
-		for k,v in pairs(Config.Item_List) do
-			random = math.random(1, #Config.Item_List)
-			id = v.id
-			item = v.item
-            count = v.count
+    local random = math.random(1, #Config.Item_List)
+    local itemData = Config.Item_List[random]
+    local item, count = itemData.item, itemData.count
 
-			if random == id then
-				trash = false
-                TriggerServerEvent('cmdSearchTrash:trash', item, count)
-                FreezeEntityPosition(PlayerPedId(), false)
-                ClearPedTasks(PlayerPedId())
-                break
-			end
-		end
-		Wait(1000)
-	end
+    TriggerServerEvent('cmdSearchTrash:trash', item, count)
 end
 
 CreateThread(function()
@@ -29,7 +16,6 @@ CreateThread(function()
         local object, dist = ESX.Game.GetClosestObject()
         local model = GetEntityModel(object)
         local coords = GetEntityCoords(object)
-
 
         for k, v in pairs(Config.Props) do 
             if model == v.model then
@@ -42,37 +28,36 @@ CreateThread(function()
                 end
                 
                 if dist <= 2 and wait == false then
-
                     sleep = 0
                     MSK.HelpNotification(Config.HelpNotification)
                     if IsControlJustPressed(1, 51) then
                         logging('debug', 'Control pressed') 
                         loadAnimDict("mini@repair")
-                        TaskPlayAnim(PlayerPedId(), "fixing_a_ped", 2.0, 2.0, -1, 1, 0, false, false, false) -- "mini@repair",
-                        logging('debug', 'TaskPlayAnim')
-                        Wait(5000)
-                        SearchTrash()
-                        logging('debug', 'Function started')
-                        wait = true
-                        logging('debug', 'wait true')
-                        Wait(Config.Wait * 1000)
-                        wait = false
-                        logging('debug', 'wait false')
+                        if HasAnimDictLoaded("mini@repair") then
+                            TaskPlayAnim(PlayerPedId(), "fixing_a_ped", 2.0, 2.0, -1, 1, 0, false, false, false)
+                            Wait(5000)
+                            ClearPedTasks(PlayerPedId())
+                            SearchTrash()
+                            wait = true
+                            Wait(Config.Wait * 1000)
+                            wait = false
+                        else
+                            logging('debug', 'Failed to load AnimDict: mini@repair')
+                        end
                     end
                 end
-
             end
         end
         Wait(sleep)
     end
 end)
 
---
-
 function loadAnimDict(dict)
-    while not HasAnimDictLoaded(dict) do
+    if not HasAnimDictLoaded(dict) then
         RequestAnimDict(dict)
-        Wait(10)
+        while not HasAnimDictLoaded(dict) do
+            Wait(10)
+        end
     end
 end
 
