@@ -30,22 +30,18 @@ CreateThread(function()
                 if dist <= 2 and wait == false then
                     sleep = 0
                     MSK.HelpNotification(Config.HelpNotification)
-                    if IsControlJustPressed(1, 51) then
-                        logging('debug', 'Control pressed') 
-                        loadAnimDict("mini@repair")
-                        if HasAnimDictLoaded("mini@repair") then
-                            TaskPlayAnim(PlayerPedId(), "fixing_a_ped", 2.0, 2.0, -1, 1, 0, false, false, false)
+                        if IsControlJustPressed(1, 51) then
+                            logging('debug', 'Control pressed') 
+                            loadAnimDict("mini@repair")
+                            TaskPlayAnim(PlayerPedId(), "mini@repair", "fixing_a_ped", 2.0, 2.0, -1, 1, 0, false, false, false)
                             Wait(5000)
                             ClearPedTasks(PlayerPedId())
                             SearchTrash()
                             wait = true
                             Wait(Config.Wait * 1000)
                             wait = false
-                        else
-                            logging('debug', 'Failed to load AnimDict: mini@repair')
                         end
                     end
-                end
             end
         end
         Wait(sleep)
@@ -53,11 +49,9 @@ CreateThread(function()
 end)
 
 function loadAnimDict(dict)
-    if not HasAnimDictLoaded(dict) then
+    while not HasAnimDictLoaded(dict) do
         RequestAnimDict(dict)
-        while not HasAnimDictLoaded(dict) do
-            Wait(10)
-        end
+        Citizen.Wait(10)
     end
 end
 
