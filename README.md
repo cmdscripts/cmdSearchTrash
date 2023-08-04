@@ -1,6 +1,6 @@
 # cmdSearchTrash
 
-Preview: https://streamable.com/rvaxj9
+Preview: [https://streamable.com/rvaxj9](https://streamable.com/9nguv2)
 
 Good Performance:
 ![image](https://github.com/cmdscripts/cmdSearchTrash/assets/123102218/ffa6506d-a0a9-4292-88bb-dd9c44cee799)
