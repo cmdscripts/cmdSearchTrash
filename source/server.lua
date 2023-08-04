@@ -4,8 +4,8 @@ AddEventHandler('cmdSearchTrash:trash', function(item, count)
 
     if xPlayer.canCarryItem(item, count) then
         xPlayer.addInventoryItem(item, count)
-        xPlayer.showNotification("Du hast " .. count .. " " .. ESX.GetItemLabel(item) .. " bekommen")
+        xPlayer.showNotification("You got" .. count .. " " .. ESX.GetItemLabel(item) .. " ")
     else
-        xPlayer.showNotification("Deine Taschen sind zu voll")
+        xPlayer.showNotification("Your pockets are too full")
     end
 end)

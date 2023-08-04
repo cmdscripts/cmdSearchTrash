@@ -30,14 +30,14 @@ CreateThread(function()
                     end
 
                     if Config.HelpNotificationAllow then
-                        ESX.ShowHelpNotification("~INPUT_CONTEXT~ Durchsuche den Müll")
+                        ESX.ShowHelpNotification("~INPUT_CONTEXT~ Search the garbage")
                     end
 
                     if IsControlJustPressed(1, 51) then
                         if CheckIfUsed(object) then
                             UseTrashBin(object)
                         else 
-                            ESX.ShowNotification('Der Mülleimer ist leer')
+                            ESX.ShowNotification("The trash can is empty")
                         end
                     end
                 end
