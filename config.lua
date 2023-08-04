@@ -2,18 +2,35 @@ Config = {}
 
 Config = {
     Debug = true,
-    Wait = 5,
-    Color = "y",
+    Wait = 10 * 60000,
     DrawMarker = true,
-    HelpNotification = "Press ~g~E~s~ search the trash",
+    HelpNotificationAllow = true,
 
     Props = {
-        {model = 1437508529},
-        {model = -206690185}
+        --{model = 1437508529}, -- kleine
+        --{model = -206690185}, -- kleine
+        {model = 684586828}, -- 
+        {model = -577432224}, -- 
+        {model = -682791951}, -- 
+        {model = 1511880420},
+        {model = 218085040},
+        {model = 58485588},
+        {model = 666561306}, 
+        {model = -1587184881},
+        {model = 600967813}
     },
 
     Item_List = {
-        {item = "bread", count = 2},
-        {item = "water", count = 5}
+--[[         {item = "plastik", count = math.random(1,3)},
+        {item = "dichtungsring", count = math.random(1,3)},
+        {item = "gummimatte", count = math.random(1,3)},
+        {item = "kondom", count = math.random(1,3)},
+        {item = "plastiktute", count = math.random(1,3)},
+        {item = "besteck", count = math.random(1,3)},
+        {item = "plastikbecher", count = math.random(1,3)},
+        {item = "batterie", count = math.random(1,3)},
+        {item = "karton", count = math.random(1,3)}, ]]
+        {item = "bread", count = math.random(1,3)},
+        {item = "water", count = math.random(1,3)}
     },
 }

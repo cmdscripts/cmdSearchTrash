@@ -1,5 +1,6 @@
 local trash = false
 local wait = false
+local usedTrashBins = {}
 
 function SearchTrash()
     local random = math.random(1, #Config.Item_List)
@@ -10,6 +11,7 @@ function SearchTrash()
 end
 
 CreateThread(function()
+
     while true do
         local sleep = 1000
 
@@ -19,34 +21,81 @@ CreateThread(function()
 
         for k, v in pairs(Config.Props) do 
             if model == v.model then
+                local trashBinID = tostring(object)
 
-                if dist <= 2 and wait == false then
+                if dist <= 2 then
                     sleep = 0
                     if Config.DrawMarker then
                         DrawMarker(0, coords.x, coords.y, coords.z + 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.2, 0.2, 255, 20, 20, 180, false, true, p19, false)
                     end
-                end
-                
-                if dist <= 2 and wait == false then
-                    sleep = 0
-                    MSK.HelpNotification(Config.HelpNotification)
-                        if IsControlJustPressed(1, 51) then
-                            logging('debug', 'Control pressed') 
-                            loadAnimDict("mini@repair")
-                            TaskPlayAnim(PlayerPedId(), "mini@repair", "fixing_a_ped", 2.0, 2.0, -1, 1, 0, false, false, false)
-                            Wait(5000)
-                            ClearPedTasks(PlayerPedId())
-                            SearchTrash()
-                            wait = true
-                            Wait(Config.Wait * 1000)
-                            wait = false
+
+                    if Config.HelpNotificationAllow then
+                        ESX.ShowHelpNotification("~INPUT_CONTEXT~ Durchsuche den Müll")
+                    end
+
+                    if IsControlJustPressed(1, 51) then
+                        if CheckIfUsed(object) then
+                            UseTrashBin(object)
+                        else 
+                            ESX.ShowNotification('Der Mülleimer ist leer')
                         end
                     end
+                end
             end
         end
         Wait(sleep)
     end
 end)
+
+function UseTrashBin(object)
+    print("Control pressed")
+    loadAnimDict("mini@repair")
+    TaskPlayAnim(PlayerPedId(), "mini@repair", "fixing_a_ped", 2.0, 2.0, -1, 1, 0, false, false, false)
+    Wait(5000)
+    ClearPedTasks(PlayerPedId())
+    SearchTrash()
+    print(SearchTrash)
+
+    local TmpData = {
+        Id = object,
+        Time = Config.Wait
+    }
+    table.insert(usedTrashBins, TmpData)
+end
+
+CreateThread(function ()
+    while true do
+        for k, v in ipairs(usedTrashBins) do
+            if v.Time >= 1 then
+                DeleteTrashBinFromTable(v.Id)
+            else 
+                v.Time = v.Time - 1 
+            end
+        end
+        Wait(60000)
+    end
+end)
+
+function DeleteTrashBinFromTable(Trashbin)
+    for k, v in ipairs(usedTrashBins) do
+        if v.Id == Trashbin then
+            table.remove(usedTrashBins, k)
+            return
+        end
+    end
+
+    print(TrashBin, usedTrashBins, k)
+end
+
+function CheckIfUsed(TrashBin)
+    for k, v in ipairs(usedTrashBins) do
+        if v.Id == TrashBin then
+            return false
+        end
+    end
+
+    return true
+end
 
 function loadAnimDict(dict)
     while not HasAnimDictLoaded(dict) do
@@ -55,9 +104,8 @@ function loadAnimDict(dict)
     end
 end
 
-logging = function(code, ...)
+function debugPrint(msg)
     if Config.Debug then
-        local script = "[^2"..GetCurrentResourceName().."^0]"
-        MSK.logging(script, code, ...)
+        print(msg)
     end
 end
