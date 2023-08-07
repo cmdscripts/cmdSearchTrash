@@ -2,14 +2,6 @@ local trash = false
 local wait = false
 local usedTrashBins = {}
 
-function SearchTrash()
-    local random = math.random(1, #Config.Item_List)
-    local itemData = Config.Item_List[random]
-    local item, count = itemData.item, itemData.count
-
-    TriggerServerEvent('cmdSearchTrash:trash', item, count)
-end
-
 CreateThread(function()
 
     while true do
@@ -52,8 +44,8 @@ function UseTrashBin(object)
     loadAnimDict("mini@repair")
     TaskPlayAnim(PlayerPedId(), "mini@repair", "fixing_a_ped", 2.0, 2.0, -1, 1, 0, false, false, false)
     Wait(5000)
-    ClearPedTasks(PlayerPedId())
-    SearchTrash()
+    ClearPedTasks(PlayerPedId())  
+    TriggerServerEvent('cmdSearchTrash:trash')
     print(SearchTrash)
 
     local TmpData = {
