@@ -39,7 +39,7 @@ CreateThread(function()
     end
 end)
 
-function UseTrashBin(object)
+local function UseTrashBin(object)
     print("Control pressed")
     loadAnimDict("mini@repair")
     TaskPlayAnim(PlayerPedId(), "mini@repair", "fixing_a_ped", 2.0, 2.0, -1, 1, 0, false, false, false)
@@ -68,7 +68,7 @@ CreateThread(function ()
     end
 end)
 
-function DeleteTrashBinFromTable(Trashbin)
+local function DeleteTrashBinFromTable(Trashbin)
     for k, v in ipairs(usedTrashBins) do
         if v.Id == Trashbin then
             table.remove(usedTrashBins, k)
@@ -79,7 +79,7 @@ function DeleteTrashBinFromTable(Trashbin)
     print(TrashBin, usedTrashBins, k)
 end
 
-function CheckIfUsed(TrashBin)
+local function CheckIfUsed(TrashBin)
     for k, v in ipairs(usedTrashBins) do
         if v.Id == TrashBin then
             return false
@@ -89,14 +89,14 @@ function CheckIfUsed(TrashBin)
     return true
 end
 
-function loadAnimDict(dict)
+local function loadAnimDict(dict)
     while not HasAnimDictLoaded(dict) do
         RequestAnimDict(dict)
         Citizen.Wait(10)
     end
 end
 
-function debugPrint(msg)
+local function debugPrint(msg)
     if Config.Debug then
         print(msg)
     end
