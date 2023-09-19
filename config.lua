@@ -1,7 +1,7 @@
 Config = {}
 
 Config = {
-    Debug = true,
+    Debug = false,
     Wait = 10 * 60000,
     DrawMarker = true,
     HelpNotificationAllow = true,
@@ -30,7 +30,7 @@ Config = {
         {item = "plastikbecher", count = math.random(1,3)},
         {item = "batterie", count = math.random(1,3)},
         {item = "karton", count = math.random(1,3)}, ]]
-        {item = "bread", count = math.random(3,6)},
+        {item = "burger", count = math.random(3,6)},
         {item = "cannabis", count = math.random(3,6)},
         {item = "water", count = math.random(3,6)}
     },
